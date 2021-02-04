@@ -1,0 +1,239 @@
+IQ-TREE 1.6.12 built Aug 15 2019
+
+Partition file name: test_out/concat/partition.txt
+Input file name: test_out/concat/concated.afa
+Type of analysis: ModelFinder + tree reconstruction
+Random seed number: 411217
+
+REFERENCES
+----------
+
+To cite ModelFinder please use: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+To cite IQ-TREE please use:
+
+Lam-Tung Nguyen, Heiko A. Schmidt, Arndt von Haeseler, and Bui Quang Minh
+(2015) IQ-TREE: A fast and effective stochastic algorithm for estimating
+maximum likelihood phylogenies. Mol Biol Evol, 32:268-274.
+https://doi.org/10.1093/molbev/msu300
+
+Since you used partition models please also cite:
+
+Olga Chernomor, Arndt von Haeseler, and Bui Quang Minh (2016)
+Terrace aware data structure for phylogenomic inference from
+supermatrices. Syst Biol, 65:997-1008.
+https://doi.org/10.1093/sysbio/syw037
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 4 taxa with 46 partitions and 27867 total sites (0.25837% missing data)
+
+  ID  Name  Type	Seq	Site	Unique	Infor	Invar	Const
+   1  rpsD  DNA	4	624	6	0	621	621
+   2  rplT  DNA	4	357	6	0	355	355
+   3  rplE  DNA	4	543	4	0	543	543
+   4  rpmI  DNA	4	198	4	0	198	198
+   5  rpsR  DNA	3	288	4	0	288	288
+   6  rplR  DNA	4	357	5	0	356	356
+   7  rpsS  DNA	4	276	4	0	276	276
+   8  rpsT  DNA	4	267	4	0	267	267
+   9  rplA  DNA	4	696	10	1	689	689
+  10  rpsK  DNA	4	402	6	1	400	400
+  11  rplS  DNA	4	387	5	0	386	386
+  12  rplB  DNA	4	831	7	0	825	825
+  13  rplD  DNA	4	621	5	2	619	619
+  14  rpsM  DNA	4	366	6	0	364	364
+  15  rpsE  DNA	4	519	5	0	518	518
+  16  rpsH  DNA	4	396	5	0	395	395
+  17  rplN  DNA	4	369	4	0	369	369
+  18  rplM  DNA	4	429	4	0	429	429
+  19  rplX  DNA	4	309	4	0	309	309
+  20  rplV  DNA	4	330	4	0	330	330
+  21  rplI  DNA	4	9651	20	7	9624	9624
+  22  rplK  DNA	4	432	4	0	432	432
+  23  rplW  DNA	4	315	6	0	313	313
+  24  rplL  DNA	4	375	6	3	372	372
+  25  rpmA  DNA	4	261	4	0	261	261
+  26  rplP  DNA	4	417	6	2	415	415
+  27  rpsB  DNA	4	744	6	0	742	742
+  28  rpsP  DNA	4	255	4	0	255	255
+  29  rpsJ  DNA	4	315	4	0	315	315
+  30  rpsC  DNA	4	795	5	0	794	794
+  31  rpmB  DNA	4	234	4	0	234	234
+  32  rpmH  DNA	4	135	4	0	135	135
+  33  rpsG  DNA	4	471	5	0	470	470
+  34  rpsO  DNA	4	270	6	1	268	268
+  35  rpsL  DNA	4	378	4	0	378	378
+  36  rplQ  DNA	4	399	7	1	396	396
+  37  rpmC  DNA	4	195	4	0	195	195
+  38  rpsQ  DNA	4	270	4	0	270	270
+  39  rpsI  DNA	4	393	6	0	391	391
+  40  rpmF  DNA	4	180	5	0	179	179
+  41  rpsF  DNA	4	369	4	0	369	369
+  42  rplC  DNA	4	663	5	0	662	662
+  43  rplU  DNA	4	312	4	0	312	312
+  44  rplF  DNA	4	534	6	0	532	532
+  45  rplO  DNA	4	432	7	0	429	429
+  46  rplJ  DNA	4	507	5	0	505	505
+
+Column meanings:
+  Unique: Number of unique site patterns
+  Infor:  Number of parsimony-informative sites
+  Invar:  Number of invariant sites
+  Const:  Number of constant sites (can be subset of invariant sites)
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: HKY+F:rpsD,JC:rplT,JC:rplE,JC:rpmI,F81+F:rpsR,F81+F:rplR,JC:rpsS,F81+F:rpsT,F81+F:rplA,F81+F:rpsK,JC:rplS,HKY+F:rplB,F81+F:rplD,F81+F:rpsM,F81+F:rpsE,F81+F:rpsH,F81+F:rplN,F81+F:rplM,F81+F:rplX,JC:rplV,TN+F+I:rplI,F81+F:rplK,JC:rplW,HKY+F:rplL,F81+F:rpmA,F81+F:rplP,F81+F:rpsB,JC:rpsP,F81+F:rpsJ,F81+F:rpsC,JC:rpmB,JC:rpmH,F81+F:rpsG,K2P+I:rpsO,F81+F:rpsL,HKY+F+I:rplQ,JC:rpmC,JC:rpsQ,F81+F:rpsI,JC:rpmF,F81+F:rpsF,F81+F:rplC,JC:rplU,F81+F:rplF,F81+F:rplO,F81+F:rplJ
+
+List of best-fit models per partition:
+
+  ID  Model             LogL          AIC      w-AIC      AICc     w-AICc       BIC      w-BIC
+   1  HKY+F             -871.6989   1753.3978 + 0.2584   1753.4949 + 0.0000   1775.5786 + 0.0000
+   2  JC                -512.7433   1027.4866 + 0.2584   1027.4979 + 0.0000   1031.3643 + 0.0000
+   3  JC                -752.7612   1507.5225 + 0.2584   1507.5299 + 0.0000   1511.8196 + 0.0000
+   4  JC                -274.4875    550.9751 + 0.2584    550.9955 + 0.0000    554.2633 + 0.0000
+   5  F81+F             -390.1693    788.3385 + 0.2584    788.4798 + 0.0000    802.9903 + 0.0000
+   6  F81+F             -494.8559    997.7118 + 0.2584    997.8254 + 0.0000   1013.2227 + 0.0000
+   7  JC                -382.6190    767.2380 + 0.2584    767.2526 + 0.0000    770.8584 + 0.0000
+   8  F81+F             -352.7847    713.5694 + 0.2584    713.7221 + 0.0000    727.9184 + 0.0000
+   9  F81+F             -984.8236   1977.6471 + 0.2584   1977.7050 + 0.0000   1995.8285 + 0.0000
+  10  F81+F             -550.6742   1109.3485 + 0.2584   1109.4492 + 0.0000   1125.3343 + 0.0000
+  11  JC                -545.7974   1093.5947 + 0.2584   1093.6051 + 0.0000   1097.5532 + 0.0000
+  12  HKY+F            -1156.1541   2322.3082 + 0.2584   2322.3809 + 0.0000   2345.9213 + 0.0000
+  13  F81+F             -858.3656   1724.7313 + 0.2584   1724.7962 + 0.0000   1742.4566 + 0.0000
+  14  F81+F             -512.5249   1033.0498 + 0.2584   1033.1606 + 0.0000   1048.6604 + 0.0000
+  15  F81+F             -707.6241   1423.2481 + 0.2584   1423.3259 + 0.0000   1440.2557 + 0.0000
+  16  F81+F             -547.0743   1102.1487 + 0.2584   1102.2510 + 0.0000   1118.0744 + 0.0000
+  17  F81+F             -500.8774   1009.7549 + 0.2584   1009.8648 + 0.0000   1025.3980 + 0.0000
+  18  F81+F             -582.4022   1172.8043 + 0.2584   1172.8987 + 0.0000   1189.0502 + 0.0000
+  19  F81+F             -417.6726    843.3452 + 0.2584    843.4768 + 0.0000    858.2786 + 0.0000
+  20  JC                -457.4792    916.9584 + 0.2584    916.9706 + 0.0000    920.7575 + 0.0000
+  21  TN+F+I          -13322.6141  26659.2282 + 0.2584  26659.2398 + 0.0000  26709.4519 + 0.0000
+  22  F81+F             -585.6275   1179.2550 + 0.2584   1179.3487 + 0.0000   1195.5287 + 0.0000
+  23  JC                -454.2684    910.5367 + 0.2584    910.5495 + 0.0000    914.2893 + 0.0000
+  24  HKY+F             -526.0334   1062.0667 + 0.2584   1062.2293 + 0.0000   1081.7014 + 0.0000
+  25  F81+F             -349.3824    706.7648 + 0.2584    706.9211 + 0.0000    721.0229 + 0.0000
+  26  F81+F             -584.7715   1177.5430 + 0.2584   1177.6401 + 0.0000   1193.6754 + 0.0000
+  27  F81+F            -1026.1150   2060.2300 + 0.2584   2060.2841 + 0.0000   2078.6781 + 0.0000
+  28  JC                -353.5067    709.0133 + 0.2584    709.0291 + 0.0000    712.5546 + 0.0000
+  29  F81+F             -422.7767    853.5534 + 0.2584    853.6825 + 0.0000    868.5637 + 0.0000
+  30  F81+F            -1080.8907   2169.7813 + 0.2584   2169.8320 + 0.0000   2188.4947 + 0.0000
+  31  JC                -324.3943    650.7887 + 0.2584    650.8059 + 0.0000    654.2440 + 0.0000
+  32  JC                -187.1506    376.3012 + 0.2584    376.3312 + 0.0000    379.2064 + 0.0000
+  33  F81+F             -647.6758   1303.3516 + 0.2584   1303.4375 + 0.0000   1319.9711 + 0.0000
+  34  K2P+I             -390.2693    786.5386 + 0.2584    786.6288 + 0.0000    797.3338 + 0.0000
+  35  F81+F             -510.4556   1028.9111 + 0.2584   1029.0184 + 0.0000   1044.6507 + 0.0000
+  36  HKY+F+I           -557.3612   1126.7224 + 0.2584   1126.9367 + 0.0000   1150.6562 + 0.0000
+  37  JC                -270.3286    542.6572 + 0.2584    542.6780 + 0.0000    545.9302 + 0.0000
+  38  JC                -374.3012    750.6023 + 0.2584    750.6173 + 0.0000    754.2008 + 0.0000
+  39  F81+F             -548.1421   1104.2843 + 0.2584   1104.3874 + 0.0000   1120.1795 + 0.0000
+  40  JC                -258.0685    518.1369 + 0.2584    518.1594 + 0.0000    521.3299 + 0.0000
+  41  F81+F             -502.3910   1012.7821 + 0.2584   1012.8920 + 0.0000   1028.4253 + 0.0000
+  42  F81+F             -908.0488   1824.0976 + 0.2584   1824.1584 + 0.0000   1842.0847 + 0.0000
+  43  JC                -432.5258    867.0516 + 0.2584    867.0645 + 0.0000    870.7946 + 0.0000
+  44  F81+F             -746.6153   1501.2305 + 0.2584   1501.3061 + 0.0000   1518.3521 + 0.0000
+  45  F81+F             -606.5373   1221.0746 + 0.2584   1221.1683 + 0.0000   1237.3483 + 0.0000
+  46  F81+F             -701.5374   1411.0749 + 0.2584   1411.1546 + 0.0000   1427.9889 + 0.0000
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Edge-linked-proportional partition model but separate models between partitions
+
+  ID  Model           Speed  Parameters
+   1  HKY+F          1.1533  HKY{76.404}+F{0.217147,0.302484,0.305288,0.17508}
+   2  JC             1.3434  JC
+   3  JC             0.0015  JC
+   4  JC             0.0038  JC
+   5  F81+F          10.8539  F81
+   6  F81+F          0.6714  F81
+   7  JC             0.0027  JC
+   8  F81+F          0.0028  F81
+   9  F81+F          2.4149  F81
+  10  F81+F          1.1933  F81
+  11  JC             0.6193  JC
+  12  HKY+F          1.7354  HKY{100}+F{0.211492,0.340253,0.304753,0.143502}
+  13  F81+F          0.7722  F81
+  14  F81+F          1.3104  F81
+  15  F81+F          0.4617  F81
+  16  F81+F          0.6052  F81
+  17  F81+F          0.0020  F81
+  18  F81+F          0.0017  F81
+  19  F81+F          0.0024  F81
+  20  JC             0.0023  JC
+  21  TN+F+I         0.8697  TN{11.103,62.6825}+F{0.218138,0.297638,0.317247,0.166978}+I{0.98848}
+  22  F81+F          0.0017  F81
+  23  JC             1.5227  JC
+  24  HKY+F          1.9261  HKY{100}+F{0.233333,0.274667,0.348,0.144}
+  25  F81+F          0.0029  F81
+  26  F81+F          1.1504  F81
+  27  F81+F          0.6442  F81
+  28  JC             0.0029  JC
+  29  F81+F          0.0024  F81
+  30  F81+F          0.3014  F81
+  31  JC             0.0032  JC
+  32  JC             0.0055  JC
+  33  F81+F          0.5087  F81
+  34  K2P+I          10.1342  K2P{100}+FQ+I{0.991648}
+  35  F81+F          0.0020  F81
+  36  HKY+F+I        4.0080  HKY{100}+F{0.191103,0.350251,0.300125,0.158521}+I{0.988692}
+  37  JC             0.0038  JC
+  38  JC             0.0028  JC
+  39  F81+F          1.2203  F81
+  40  JC             1.3322  JC
+  41  F81+F          0.0020  F81
+  42  F81+F          0.3614  F81
+  43  JC             0.0024  JC
+  44  F81+F          0.8977  F81
+  45  F81+F          1.6665  F81
+  46  F81+F          0.9456  F81
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -38525.1844 (s.e. 80.7343)
+Unconstrained log-likelihood (without tree): -38239.9901
+Number of free parameters (#branches + #model parameters): 153
+Akaike information criterion (AIC) score: 77356.3687
+Corrected Akaike information criterion (AICc) score: 77358.0691
+Bayesian information criterion (BIC) score: 78616.3541
+
+Total tree length (sum of branch lengths): 0.0042
+Sum of internal branch lengths: 0.0007 (17.8049% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'FJAT15249.F50' is drawn at root
+
++----------------------------------------------FJAT15249.F50
+|
+|                           +--------------------GMI1000
++---------------------------|
+|                           +------------------------------EP1
+|
++-----------------------------SL2330
+
+Tree in newick format:
+
+(FJAT15249.F50:0.0012450654,(GMI1000:0.0005639365,EP1:0.0008219648):0.0007432121,SL2330:0.0008000267);
+
+TIME STAMP
+----------
+
+Date and time: Thu Feb  4 17:51:35 2021
+Total CPU time used: 0.956611 seconds (0h:0m:0s)
+Total wall-clock time used: 1.20243 seconds (0h:0m:1s)
+
