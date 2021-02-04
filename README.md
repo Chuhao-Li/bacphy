@@ -43,7 +43,9 @@ bash tests/script/test1.sh
 ### Cookbook
 Here, we descript what happened in the test procedure. 
 
-Input files are genome sequence file and annotation file of 4 Ralstonia solanacearum strains: 
+Input files are genome sequence file and annotation file of 4 Ralstonia solanacearum strains:
+
+(**Note!** the gff file should be downloaded from NCBI, or created from the newest version of PGAP. ) 
 ```
 tests/data/
 ├── EP1.fna
@@ -63,7 +65,7 @@ if [ ! -d test_out ]; then mkdir test_out; fi
 if [ ! -d test_out/marker_gene ]; then mkdir test_out/marker_gene; fi
 ```
 
-Extract ribosomal protein genes. 
+Extract ribosomal protein genes. 46 ribosomal protein gene sequence listed in data/single_copy_genes.list will be extracted. 
 ``` bash
 echo "extrating marker genes..."
 for i in EP1 FJAT15249.F50 GMI1000 SL2330; do
