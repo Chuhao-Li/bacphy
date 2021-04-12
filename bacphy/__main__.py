@@ -13,11 +13,13 @@ def parse_args():
     parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter)
     parser.description = usage
     parser.add_argument('-g', '--genome_dir', help="directory including genome sequence file(*.fna)")
+    parser.add_argument('-t', '--threads', default=8, type=int, help="num of processes to use")
+    parser.add_argument('-f', '--force', action="store_true", help="force to over-write existed prodigal and hmmsearch result")
     parser.add_argument('-o', '--outdir', default='bacphy_out', help="output directory")
     args = parser.parse_args()
     return args
 
-def extract_marker_gene(indir, outdir, tmp, data_dir):
+def extract_marker_gene(indir, outdir, tmp, data_dir, threads, force):
     '''extract 120 marker genes from genome sequence
 
     Parameters
@@ -45,9 +47,10 @@ def extract_marker_gene(indir, outdir, tmp, data_dir):
         command.extend(['-d', f'{prodigal_tmp}/{prefix}.cds'])
         command.extend(['-o', f'{prodigal_tmp}/{prefix}.gff'])
         command.extend(['-c', '-q', '-f', 'gff', '-i', f'{indir}/{i}'])
-        commands.append(' '.join(command))
+        if force or not os.path.exists(f'{prodigal_tmp}/{prefix}.faa'):
+            commands.append(' '.join(command))
     print('running prodigal...')
-    with Pool(processes=8) as p:
+    with Pool(processes=threads) as p:
         with tqdm(total=len(commands)) as pbar:
             for i in p.imap(os.system, commands):
                 pbar.update()
@@ -64,9 +67,10 @@ def extract_marker_gene(indir, outdir, tmp, data_dir):
             command.extend(['--cut_nc'])
             command.extend([f'{data_dir}/hmm_db/bac120.{i}.hmm'])
             command.extend([f'{prodigal_tmp}/{prefix}.faa'])
-            commands.append(' '.join(command))
+            if force or not os.path.exists(f'{hmmsearch_tmp}/{prefix}.{i}.tsv'):
+                commands.append(' '.join(command))
     print('running hmmsearch...')
-    with Pool(processes=8) as p:
+    with Pool(processes=threads) as p:
         with tqdm(total=len(commands)) as pbar:
             for i in p.imap(os.system, commands):
                 pbar.update()
@@ -95,6 +99,24 @@ def extract_marker_gene(indir, outdir, tmp, data_dir):
             else:
                 hmm_to_prot[hmm].append(prot)
         marker_genes[prefix] = hmm_to_prot
+    
+    hmm_accs = [i.split('\t')[0] for i in open(f'{data_dir}/gtdbtk.bac120.marker_info.tsv').read().splitlines()[1:]]
+    # 输出marker genes统计表
+    with open(f'{outdir}/stat.tsv', 'w') as f:
+        print('genome\tsingle\tmulti\tabsent', file=f)
+        for g, v in marker_genes.items():
+            single = 0
+            multi = 0
+            absent = 0
+            for hmm in hmm_accs:
+                if hmm in v:
+                    if len(v[hmm]) > 1:
+                        multi += 1
+                    elif len(v[hmm]) == 1:
+                        single += 1
+                else:
+                    absent += 1
+            print(f'{g}\t{single}\t{multi}\t{absent}', file=f)
 
     # 输出单拷贝基因序列
     out_dict = {}
@@ -102,14 +124,17 @@ def extract_marker_gene(indir, outdir, tmp, data_dir):
         out_dict[g] = {}
         out = open(f'{outdir}/{g}.fa', 'w')
         cds = {rec.id:rec for rec in SeqIO.parse(f'{prodigal_tmp}/{g}.cds', 'fasta')}
-        for k, v1 in v.items():
-            seq = str(cds[v1[0]].seq)
-            outfa = f'>{k}\n{seq}\n'
+        for acc in hmm_accs:
+            seq = ''
+            if acc in v:
+                v1 = v[acc]
+                seq = str(cds[v1[0]].seq)
+            outfa = f'>{acc}\n{seq}\n'
             out.write(outfa)
-            out_dict[g][k] = outfa
+            out_dict[g][acc] = outfa
     return out_dict
 
-def align(dir2, dir3):
+def align(dir2, dir3, threads):
     '''align all fa files in dir2'''
 
     commands = []
@@ -122,7 +147,7 @@ def align(dir2, dir3):
         commands.append(f'mafft --quiet {_in} >{out}')
 
     print('running mafft...')
-    with Pool(processes=8) as p:
+    with Pool(processes=threads) as p:
         with tqdm(total=len(commands)) as pbar:
             for i in p.imap(os.system, commands):
                 pbar.update()
@@ -156,9 +181,9 @@ def main():
         if not os.path.exists(subdir):
             os.mkdir(subdir)
     
-    marker_genes = extract_marker_gene(args.genome_dir, dir1, tmp, data_dir)
+    marker_genes = extract_marker_gene(args.genome_dir, dir1, tmp, data_dir, args.threads, args.force)
     a_gene_a_fasta(dir1, dir2)
-    align(dir2, dir3)
+    align(dir2, dir3, args.threads)
     concatenate(dir3, dir4)
     build_tree(dir4)
 
