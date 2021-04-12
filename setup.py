@@ -19,5 +19,13 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    package_data = {
+        'bacphy': ['data/*', 'data/hmm_db/*']
+        }, 
+    entry_points = {
+        'console_scripts': [
+            'bacphy = bacphy.__main__:main'
+        ]
+    }
 )
 

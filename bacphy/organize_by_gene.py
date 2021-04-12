@@ -7,22 +7,36 @@ import os
 import argparse
 from Bio import SeqIO
 
-def main(args):
-    fastas = os.listdir(args.indir)
+def a_gene_a_fasta(indir, outdir):
+    '''from a genome a fasta to a gene a fasta
+
+    Parameters
+    ------
+    indir: str
+        input directory, with marker genes organize by genome
+    outdir:str
+        output directory, with marker genes organize by gene
+
+    Returns
+    ------
+    None
+    '''
+    fastas = os.listdir(indir)
     fastas = [i for i in fastas if i.split('.')[-1] in {'fa', 'fna', 'fasta'}]
     collector = {}
     for fa in fastas:
         g = '.'.join(fa.split('.')[:-1])
-        for rec in SeqIO.parse(args.indir.rstrip('/') + '/' + fa, 'fasta'):
+        for rec in SeqIO.parse(indir.rstrip('/') + '/' + fa, 'fasta'):
             if rec.id in collector:
                 collector[rec.id].append(f'>{g}\n{rec.seq}\n')
             else:
                 collector[rec.id] = [f'>{g}\n{rec.seq}\n']
-    if not os.path.exists(args.outdir):
-        os.makedirs(args.outdir)
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
     for k,v in collector.items():
-        with open(args.outdir.rstrip('/') + '/' + k + '.fa', 'w') as f:
+        with open(outdir.rstrip('/') + '/' + k + '.fa', 'w') as f:
             f.write(''.join(v))
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter)
@@ -31,5 +45,5 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--outdir', help="output directory")
     parser.add_argument('-v', '--version', action='store_true', help="print version")
     args = parser.parse_args()
-    main(args)
+    a_gene_a_fasta(args.indir, args.outdir)
 

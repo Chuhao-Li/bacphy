@@ -94,14 +94,15 @@ def get_fasta_by_coord(line, fasta):
         sequence = sequence.reverse.complement
     return sequence.seq
 
-def main(args):
+def main():
     if args.version:
         print(version)
         exit()
     #rp_list = ["30S ribosomal protein S" + str(i) for i in range(1, 22)] + \
     #          ["50S ribosomal protein L" + str(i) for i in range(1, 37) if i not in [7, 8, 12, 26]] + \
     #          ['50S ribosomal protein L7/L12'] 
-    rp_list = open('data/single_copy_genes.list').read().strip().splitlines()
+    rp_list_path = os.path.dirname(os.path.abspath(__file__))
+    rp_list = open(f'{rp_list_path}/data/single_copy_genes.list').read().strip().splitlines()
     rp_list = [i.split('\t')[1] for i in rp_list]
     coords = get_ribosomal_coord(args.anno, rp_list)
     with open(args.outfile, 'w') as f:
@@ -117,4 +118,4 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--outfile', help="output file")
     parser.add_argument('-v', '--version', action='store_true', help="print version")
     args = parser.parse_args()
-    main(args)
+    main()

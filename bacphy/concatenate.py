@@ -16,8 +16,11 @@ import os
 import argparse
 from Bio import SeqIO
 
-def main(args):
-    indir = args.indir.rstrip('/')
+def concatenate(indir, outdir):
+    outdir = outdir.rstrip('/')
+    indir = indir.rstrip('/')
+    outfa = f'{outdir}/concatenated.afa'
+    out_par = f'{outdir}/partition.txt'
     fastas = [i for i in os.listdir(indir) if i.endswith('.afa')]
     
     out = {}
@@ -38,13 +41,13 @@ def main(args):
             partition.append((gene, len(rec.seq)))
     
     # write concated sequence
-    with open(args.outafa, 'w') as f:
+    with open(outfa, 'w') as f:
         for k,v in out.items():
             concated = ''.join(v)
             f.write(f'>{k}\n{concated}\n')
     
     # write partition
-    with open(args.partition, 'w') as f:
+    with open(out_par, 'w') as f:
         start = 1
         for gene, l in partition:
             end = str(start+l-1)
@@ -55,8 +58,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter)
     parser.description = usage
     parser.add_argument('-i', '--indir', help="input directory with multiple sequence files")
-    parser.add_argument('-o', '--outafa', help="output aligned fasta file")
-    parser.add_argument('-p', '--partition', help="output partition file")
+    parser.add_argument('-o', '--outdir', help="output aligned fasta file")
     parser.add_argument('-v', '--version', action='store_true', help="print version")
     args = parser.parse_args()
-    main(args)
+    main(args.indir, args.outdir)
