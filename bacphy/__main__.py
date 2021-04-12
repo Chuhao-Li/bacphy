@@ -12,7 +12,7 @@ def parse_args():
     usage = 'bacterial phylogenetic analysis tools'
     parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter)
     parser.description = usage
-    parser.add_argument('-g', '--genome_dir', help="directory including genome sequence file(*.fasta or *.fna or *.fa)")
+    parser.add_argument('-g', '--genome_dir', help="directory including genome sequence file(*.fna)")
     parser.add_argument('-o', '--outdir', default='bacphy_out', help="output directory")
     args = parser.parse_args()
     return args

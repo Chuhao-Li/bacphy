@@ -51,5 +51,6 @@ New feature of v0.2
 
 To do list: 
 - Raise warning or error if the sequence quality is low. 
-- Raise warning if multi-copy of marker genes exists
-
+- Raise warning if multi-copy of marker genes exists. 
+- Check dependency at the beginning. Ensure software version is as expected. 
+- Test in other platform
