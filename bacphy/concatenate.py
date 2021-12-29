@@ -16,17 +16,17 @@ import os
 import argparse
 from Bio import SeqIO
 
-def concatenate(indir, outdir):
+def concatenate(indir, outdir, suffix="afa"): # suffix: output suffix
     outdir = outdir.rstrip('/')
     indir = indir.rstrip('/')
-    outfa = f'{outdir}/concatenated.afa'
+    outfa = f'{outdir}/concatenated.{suffix}'
     out_par = f'{outdir}/partition.txt'
-    fastas = [i for i in os.listdir(indir) if i.endswith('.afa')]
+    fastas = [i for i in os.listdir(indir) if i.endswith(f'.{suffix}')]
     
     out = {}
     
     fa = fastas[0]
-    gene = fa.replace('.afa', '')
+    gene = fa.replace(f'.{suffix}', '')
     partition = []
     for rec in SeqIO.parse(f'{indir}/{fa}', 'fasta'):
         out[rec.id] = [str(rec.seq)]
@@ -34,7 +34,7 @@ def concatenate(indir, outdir):
         partition.append((gene, len(rec.seq)))
     
     for fa in fastas[1:]:
-        gene = fa.replace('.afa', '')
+        gene = fa.replace(f'.{suffix}', '')
         for rec in SeqIO.parse(f'{indir}/{fa}', 'fasta'):
             out[rec.id].append(str(rec.seq))
         else:
@@ -47,11 +47,13 @@ def concatenate(indir, outdir):
             f.write(f'>{k}\n{concated}\n')
     
     # write partition
+    model = "protein" if suffix == "afaa" else "DNA"
+    # if use -TEST, iqtree will ignore the "protein" model. see https://github.com/Cibiv/IQ-TREE/issues/153
     with open(out_par, 'w') as f:
         start = 1
         for gene, l in partition:
             end = str(start+l-1)
-            f.write(f'DNA, {gene} = {start}-{end}\n')
+            f.write(f'{model}, {gene} = {start}-{end}\n')
             start += l
 
 if __name__ == '__main__':
@@ -61,4 +63,4 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--outdir', help="output aligned fasta file")
     parser.add_argument('-v', '--version', action='store_true', help="print version")
     args = parser.parse_args()
-    main(args.indir, args.outdir)
+    concatenate(args.indir, args.outdir)

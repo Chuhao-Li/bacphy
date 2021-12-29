@@ -7,7 +7,7 @@ import os
 import argparse
 from Bio import SeqIO
 
-def a_gene_a_fasta(indir, outdir):
+def a_gene_a_fasta(indir, outdir, seqtype="nt"):
     '''from a genome a fasta to a gene a fasta
 
     Parameters
@@ -21,8 +21,12 @@ def a_gene_a_fasta(indir, outdir):
     ------
     None
     '''
+    if seqtype == "nt": 
+        suffix = "fa" 
+    elif seqtype == "aa":
+        suffix = "faa"
     fastas = os.listdir(indir)
-    fastas = [i for i in fastas if i.split('.')[-1] in {'fa', 'fna', 'fasta'}]
+    fastas = [i for i in fastas if i.endswith(suffix)]
     collector = {}
     for fa in fastas:
         g = '.'.join(fa.split('.')[:-1])
@@ -34,7 +38,7 @@ def a_gene_a_fasta(indir, outdir):
     if not os.path.exists(outdir):
         os.makedirs(outdir)
     for k,v in collector.items():
-        with open(outdir.rstrip('/') + '/' + k + '.fa', 'w') as f:
+        with open(outdir.rstrip('/') + '/' + k + f'.{suffix}', 'w') as f:
             f.write(''.join(v))
 
 

@@ -15,6 +15,9 @@ def parse_args():
     parser.add_argument('-g', '--genome_dir', help="directory including genome sequence file(*.fna)")
     parser.add_argument('-t', '--threads', default=8, type=int, help="num of processes to use")
     parser.add_argument('-f', '--force', action="store_true", help="force to over-write existed prodigal and hmmsearch result")
+    parser.add_argument('--extract_only', action="store_true", help="only extract sequences, do not align or build tree")
+    parser.add_argument('--align_only', action="store_true", help="stop the pipeline when sequence aligned and concatenated. ")
+    parser.add_argument('--use_protein', action="store_true", help="use protein rather than nucleotide to build tree. ")
     parser.add_argument('-o', '--outdir', default='bacphy_out', help="output directory")
     args = parser.parse_args()
     return args
@@ -119,11 +122,17 @@ def extract_marker_gene(indir, outdir, tmp, data_dir, threads, force):
             print(f'{g}\t{single}\t{multi}\t{absent}', file=f)
 
     # 输出单拷贝基因序列
+    print("extracting genes sequences...")
     out_dict = {}
     for g, v in marker_genes.items():
         out_dict[g] = {}
-        out = open(f'{outdir}/{g}.fa', 'w')
-        cds = {rec.id:rec for rec in SeqIO.parse(f'{prodigal_tmp}/{g}.cds', 'fasta')}
+        suffix = "faa" if args.use_protein else "cds" # 输入文件，也就是prodigal预测的基因/蛋白
+        suffix2 = "faa" if args.use_protein else "fa" # 输出文件后缀
+        outfn = f'{outdir}/{g}.{suffix2}'
+        if os.path.exists(outfn):
+            continue
+        out = open(outfn, 'w')
+        cds = {rec.id:rec for rec in SeqIO.parse(f'{prodigal_tmp}/{g}.{suffix}', 'fasta')}
         for acc in hmm_accs:
             seq = ''
             if acc in v:
@@ -132,19 +141,23 @@ def extract_marker_gene(indir, outdir, tmp, data_dir, threads, force):
             outfa = f'>{acc}\n{seq}\n'
             out.write(outfa)
             out_dict[g][acc] = outfa
+        out.close()
     return out_dict
 
 def align(dir2, dir3, threads):
     '''align all fa files in dir2'''
-
+    print("aligning...")
     commands = []
+    suffix1 = "faa" if args.use_protein else "fa" # 输入文件后缀
+    suffix2 = "afaa" if args.use_protein else "afa" # 输出文件后缀
     for i in os.listdir(dir2):
-        if not i.endswith('.fa'):
+        if not i.endswith(f'.{suffix1}'):
             continue
-        prefix = i.replace('.fa', '')
+        prefix = i.replace('.{suffix1}', '')
         _in = f'{dir2}/{i}'
-        out = f'{dir3}/{prefix}.afa'
-        commands.append(f'mafft --quiet {_in} >{out}')
+        out = f'{dir3}/{prefix}.{suffix2}'
+        if not os.path.exists(out):
+            commands.append(f'mafft --quiet {_in} >{out}')
 
     print('running mafft...')
     with Pool(processes=threads) as p:
@@ -152,21 +165,29 @@ def align(dir2, dir3, threads):
             for i in p.imap(os.system, commands):
                 pbar.update()
 
-def build_tree(indir):
-    'build phylogenetic tree by iqtree'
+def build_tree(indir, threads):
+    print('build phylogenetic tree by iqtree')
     outdir = f'{indir}/iqtree'
     if not os.path.exists(outdir):
         os.mkdir(outdir)
     command = ['iqtree', '-quiet']
-    command.extend(['-s', f'{indir}/concatenated.afa'])
+    if args.use_protein: 
+        command.extend(['-s', f'{indir}/concatenated.afaa'])
+    else:
+        command.extend(['-s', f'{indir}/concatenated.afa'])
     command.extend(['-spp', f'{indir}/partition.txt'])
     command.extend(['-pre', f'{outdir}/iqtree'])
+    command.extend(['-bb', '1000'])
+    command.extend(['-nt', f'{threads}'])
     command.extend(['-m', 'MFP'])
     print('building phylogenetic tree...')
+    print('command: ')
+    print(' '.join(command))
     os.system(' '.join(command))
 
+args = parse_args()
+
 def main():
-    args = parse_args()
     outdir=args.outdir
     script_path = os.path.abspath(__file__)
     data_dir = os.path.dirname(script_path) + '/data'
@@ -181,11 +202,15 @@ def main():
         if not os.path.exists(subdir):
             os.mkdir(subdir)
     
+    suffix="afa" if not args.use_protein else "afaa"
+    seqtype = "aa" if args.use_protein else "nt"
     marker_genes = extract_marker_gene(args.genome_dir, dir1, tmp, data_dir, args.threads, args.force)
-    a_gene_a_fasta(dir1, dir2)
-    align(dir2, dir3, args.threads)
-    concatenate(dir3, dir4)
-    build_tree(dir4)
+    if not args.extract_only:
+        a_gene_a_fasta(dir1, dir2, seqtype=seqtype)
+        align(dir2, dir3, args.threads)
+        concatenate(dir3, dir4, suffix=suffix)
+        if not args.align_only: 
+            build_tree(dir4, args.threads)
 
 if __name__ == '__main__':
     main()
