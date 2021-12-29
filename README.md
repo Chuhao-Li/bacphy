@@ -1,4 +1,4 @@
-# bacphy v0.2
+# bacphy v0.3
 
 ### Introduction
 Bacphy(BACterial PHYlogenetic analysis tools) aims to build a robust phylogenetic tree by bacterial genomes on different taxonomic level. 
@@ -44,10 +44,9 @@ bacphy -g tests/data/genome/ -o test_out
 
 ### more infomation:
 
-New feature of v0.2 
-- Easier installing and running
-- More marker genes
-- No need of annotation file 
+New feature of v0.3 
+- you can use protein to build tree by --use_protein parameter. 
+- you can stop the program before the tree building step by --align_only parameter. 
 
 To do list: 
 - Raise warning or error if the sequence quality is low. 

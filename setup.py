@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="bacphy",
-    version="0.1",
+    version="0.3",
     author="Chuhao-Li",
     author_email="a879942613@qq.com",
     description="bacterial phylogenetic analysis tools",
